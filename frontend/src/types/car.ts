@@ -10,6 +10,7 @@ export interface Car {
   mileage: number | null;
   price: number | null;
   date: string | null;
+  features_count: number | null;
 }
 
 export interface CarsResponse {

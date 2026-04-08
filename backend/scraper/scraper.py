@@ -21,7 +21,9 @@ def _fetch_detail(client, url: str) -> dict:
     if date_td:
         date = date_td.text.replace("Datums:", "").strip()
 
-    return {"image": image, "date": date}
+    features_count = len(soup.find_all("b", class_="auto_c"))
+
+    return {"image": image, "date": date, "features_count": features_count}
 
 def scrape_page(client, url: str) -> list[dict]:
     resp = client.get(url)
@@ -75,10 +77,12 @@ def scrape_page(client, url: str) -> list[dict]:
             detail = _fetch_detail(client, car["link"])
             car["image"] = detail["image"]
             car["date"] = detail["date"]
+            car["features_count"] = detail["features_count"]
             print(f"  [{i + 1}/{len(raw)}] {car['id']} — ok")
         except Exception as e:
             car["image"] = None
             car["date"] = None
+            car["features_count"] = None
             print(f"  [{i + 1}/{len(raw)}] {car['id']} — detail failed: {e}")
         data.append(car)
 

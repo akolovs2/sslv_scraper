@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
+import { getCookie, setCookie } from "@/utils/cookies";
 
 type Theme = "light" | "dark";
 
 function getInitial(): Theme {
-  const stored = localStorage.getItem("theme") as Theme | null;
+  const stored = getCookie("theme") as Theme | null;
   if (stored) return stored;
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
@@ -18,7 +19,7 @@ export function useTheme() {
     } else {
       root.classList.remove("dark");
     }
-    localStorage.setItem("theme", theme);
+    setCookie("theme", theme);
   }, [theme]);
 
   function toggle() {

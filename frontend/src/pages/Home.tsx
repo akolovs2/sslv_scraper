@@ -8,6 +8,7 @@ import Pagination from "@/components/Pagination";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Filters from "@/components/Filters";
+import CookieConsent from "@/components/CookieConsent";
 
 const PER_PAGE = 20;
 
@@ -21,6 +22,13 @@ export default function Home() {
   // All data — only fetched when filters are active
   const { filters, setFilters, apply, reset, manufacturers, isActive } = useFilters(pagedData?.data ?? []);
   const { data: allData, loading: allLoading, error: allError } = useAllCars(isActive);
+
+  // Models for the selected manufacturer — use allData when available, fall back to paged
+  const models = useMemo(() => {
+    if (!filters.manufacturer) return [];
+    const source = allData ?? pagedData?.data ?? [];
+    return [...new Set(source.filter((c) => c.manufacturer === filters.manufacturer).map((c) => c.model))].sort();
+  }, [filters.manufacturer, allData, pagedData]);
 
   // When filters active: apply to all data and paginate client-side
   const filteredAll = useMemo(() => (allData ? apply(allData) : []), [allData, filters]);
@@ -56,6 +64,7 @@ export default function Home() {
         <Filters
           filters={filters}
           manufacturers={manufacturers}
+          models={models}
           isActive={isActive}
           onChange={handleFiltersChange}
           onReset={handleReset}
@@ -116,6 +125,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      <CookieConsent />
     </div>
   );
 }

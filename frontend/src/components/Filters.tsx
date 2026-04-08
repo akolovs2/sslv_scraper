@@ -5,18 +5,20 @@ import { type Filters, type SortField } from "@/types/filters";
 interface Props {
   filters: Filters;
   manufacturers: string[];
+  models: string[];
   isActive: boolean;
   onChange: (filters: Filters) => void;
   onReset: () => void;
 }
 
 const FUEL_OPTIONS = ["petrol", "diesel", "electric", "hybrid"] as const;
-const SORT_FIELDS: SortField[] = ["date", "price", "year", "mileage", "manufacturer"];
+const SORT_FIELDS: SortField[] = ["date", "price", "year", "mileage", "manufacturer", "rating"];
+const RATING_OPTIONS = ["4", "5", "6", "7", "8", "9"] as const;
 
 const input = "w-full text-sm border border-slate-200 dark:border-slate-600 rounded-lg px-2 py-1.5 text-slate-700 dark:text-slate-200 bg-white dark:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500";
 const select = input;
 
-export default function Filters({ filters, manufacturers, isActive, onChange, onReset }: Props) {
+export default function Filters({ filters, manufacturers, models, isActive, onChange, onReset }: Props) {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
@@ -73,11 +75,25 @@ export default function Filters({ filters, manufacturers, isActive, onChange, on
         <div className="border-t border-slate-100 dark:border-slate-700 px-4 py-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <div className="flex flex-col gap-1">
             <label className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("filters.manufacturer")}</label>
-            <select value={filters.manufacturer} onChange={(e) => set("manufacturer", e.target.value)} className={select}>
+            <select
+              value={filters.manufacturer}
+              onChange={(e) => onChange({ ...filters, manufacturer: e.target.value, model: "" })}
+              className={select}
+            >
               <option value="">{t("filters.all")}</option>
               {manufacturers.map((m) => <option key={m} value={m}>{m}</option>)}
             </select>
           </div>
+
+          {filters.manufacturer && (
+            <div className="flex flex-col gap-1">
+              <label className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("filters.model")}</label>
+              <select value={filters.model} onChange={(e) => set("model", e.target.value)} className={select}>
+                <option value="">{t("filters.all")}</option>
+                {models.map((m) => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
+          )}
 
           <div className="flex flex-col gap-1">
             <label className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("filters.fuel")}</label>
@@ -108,6 +124,16 @@ export default function Filters({ filters, manufacturers, isActive, onChange, on
           <div className="flex flex-col gap-1">
             <label className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("filters.mileageMax")}</label>
             <input type="number" placeholder={t("filters.placeholder.mileage")} value={filters.mileageMax} onChange={(e) => set("mileageMax", e.target.value)} className={input} />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label className="text-xs font-medium text-slate-500 dark:text-slate-400">{t("filters.ratingMin")}</label>
+            <select value={filters.ratingMin} onChange={(e) => set("ratingMin", e.target.value)} className={select}>
+              <option value="">{t("filters.all")}</option>
+              {RATING_OPTIONS.map((r) => (
+                <option key={r} value={r}>{r}+</option>
+              ))}
+            </select>
           </div>
         </div>
       )}

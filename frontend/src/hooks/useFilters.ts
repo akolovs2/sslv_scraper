@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Car } from "@/types/car";
 import { defaultFilters, type Filters } from "@/types/filters";
 import { parsePrice, parseMileage, parseYear, parseDate, detectFuel } from "@/utils/parsers";
+import { computeRating } from "@/utils/rating";
 
 export function useFilters(cars: Car[]) {
   const [filters, setFilters] = useState<Filters>(defaultFilters);
@@ -13,6 +14,9 @@ export function useFilters(cars: Car[]) {
 
     if (filters.manufacturer)
       result = result.filter((c) => c.manufacturer === filters.manufacturer);
+
+    if (filters.model)
+      result = result.filter((c) => c.model === filters.model);
 
     if (filters.fuel)
       result = result.filter((c) => detectFuel(c.engine) === filters.fuel);
@@ -32,6 +36,9 @@ export function useFilters(cars: Car[]) {
     if (filters.mileageMax)
       result = result.filter((c) => c.mileage !== null && parseMileage(c.mileage) <= parseInt(filters.mileageMax));
 
+    if (filters.ratingMin)
+      result = result.filter((c) => (computeRating(c) ?? 0) >= parseFloat(filters.ratingMin));
+
     result.sort((a, b) => {
       let diff = 0;
       switch (filters.sortField) {
@@ -40,6 +47,7 @@ export function useFilters(cars: Car[]) {
         case "year":         diff = parseYear(a.year) - parseYear(b.year); break;
         case "mileage":      diff = parseMileage(a.mileage) - parseMileage(b.mileage); break;
         case "date":         diff = parseDate(a.date) - parseDate(b.date); break;
+        case "rating":       diff = (computeRating(a) ?? 0) - (computeRating(b) ?? 0); break;
       }
       return filters.sortOrder === "asc" ? diff : -diff;
     });
