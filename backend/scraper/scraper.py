@@ -1,5 +1,6 @@
 import re
 from bs4 import BeautifulSoup
+from scraper.normalize import normalize_mileage, normalize_price, normalize_year
 
 def _has_msga2(tag):
     return tag.name == "td" and any("msga2" in c for c in tag.get("class", []))
@@ -59,10 +60,10 @@ def scrape_page(client, url: str) -> list[dict]:
                 "title": title_el.text.strip(),
                 "link": link,
                 "model": cols[0].text.strip(),
-                "year": cols[1].text.strip(),
+                "year": normalize_year(cols[1].text),
                 "engine": cols[2].text.strip(),
-                "mileage": cols[3].text.strip(),
-                "price": cols[4].text.strip(),
+                "mileage": normalize_mileage(cols[3].text),
+                "price": normalize_price(cols[4].text),
             })
         except Exception as e:
             print(f"Skipped row during collection: {e}")

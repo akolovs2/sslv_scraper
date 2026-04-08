@@ -17,6 +17,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/cars/all")
+def get_all_cars():
+    with open(OUTPUT_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
 @app.get("/cars")
 def get_cars(page: int = Query(1, ge=1)):
     with open(OUTPUT_PATH, encoding="utf-8") as f:
