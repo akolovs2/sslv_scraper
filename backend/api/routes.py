@@ -38,7 +38,7 @@ def get_cars(page: int = Query(1, ge=1)):
         "total_pages": total_pages,
         "data": all_cars[start:end],
     }
-1
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("routes:app", host="0.0.0.0", port=8000, reload=True)
