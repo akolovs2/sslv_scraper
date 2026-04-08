@@ -13,9 +13,9 @@ export default function CarCard({ car }: Props) {
       href={car.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col rounded-xl overflow-hidden border border-slate-200 bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+      className="group flex flex-col rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
     >
-      <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
+      <div className="relative aspect-[4/3] bg-slate-100 dark:bg-slate-700 overflow-hidden">
         {car.image ? (
           <img
             src={car.image}
@@ -23,32 +23,32 @@ export default function CarCard({ car }: Props) {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
+          <div className="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-500 text-sm">
             {t("card.noImage")}
           </div>
         )}
-        <span className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm text-slate-700 text-xs font-medium px-2 py-1 rounded-md">
+        <span className="absolute top-2 left-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm text-slate-700 dark:text-slate-300 text-xs font-medium px-2 py-1 rounded-md">
           {car.manufacturer}
         </span>
       </div>
 
       <div className="flex flex-col gap-2 p-4">
-        <h3 className="text-sm font-semibold text-slate-800 leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2 group-hover:text-blue-500 transition-colors">
           {car.title}
         </h3>
 
-        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-slate-500">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
           <span>📅 {car.year ?? "—"}</span>
           <span>⚙️ {car.engine}</span>
           <span>🛣️ {car.mileage != null ? `${car.mileage.toLocaleString()} km` : "—"}</span>
           <span>📆 {car.date ?? "—"}</span>
         </div>
 
-        <div className="mt-auto pt-2 border-t border-slate-100 flex items-center justify-between">
-          <span className="text-base font-bold text-slate-900">
+        <div className="mt-auto pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+          <span className="text-base font-bold text-slate-900 dark:text-slate-100">
             {car.price != null ? `${car.price.toLocaleString()} €` : "—"}
           </span>
-          <span className="text-xs text-slate-400">{car.model}</span>
+          <span className="text-xs text-slate-400 dark:text-slate-500">{car.model}</span>
         </div>
       </div>
     </a>

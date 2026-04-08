@@ -21,8 +21,8 @@ export default function LanguageSwitcher() {
           onClick={() => switchLang(lang.code)}
           className={`text-xs font-semibold px-2 py-1 rounded-md cursor-pointer transition-colors ${
             i18n.language === lang.code
-              ? "bg-blue-100 text-blue-600"
-              : "text-slate-400 hover:text-slate-600"
+              ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300"
+              : "text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300"
           }`}
         >
           {lang.label}

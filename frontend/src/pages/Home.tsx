@@ -49,7 +49,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
       <Header total={total} />
 
       <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 py-8 flex flex-col gap-6">
@@ -64,12 +64,12 @@ export default function Home() {
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Array.from({ length: PER_PAGE }).map((_, i) => (
-              <div key={i} className="rounded-xl border border-slate-200 bg-white overflow-hidden animate-pulse">
-                <div className="aspect-[4/3] bg-slate-200" />
+              <div key={i} className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 overflow-hidden animate-pulse">
+                <div className="aspect-[4/3] bg-slate-200 dark:bg-slate-700" />
                 <div className="p-4 flex flex-col gap-2">
-                  <div className="h-4 bg-slate-200 rounded w-3/4" />
-                  <div className="h-3 bg-slate-100 rounded w-1/2" />
-                  <div className="h-4 bg-slate-200 rounded w-1/3 mt-2" />
+                  <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4" />
+                  <div className="h-3 bg-slate-100 dark:bg-slate-600 rounded w-1/2" />
+                  <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-1/3 mt-2" />
                 </div>
               </div>
             ))}
@@ -85,6 +85,12 @@ export default function Home() {
 
         {!loading && !error && (
           <>
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+
             {cars.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-24 text-center">
                 <p className="text-slate-400 text-sm">{t("states.noResults")}</p>
