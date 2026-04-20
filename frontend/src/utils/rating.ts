@@ -34,7 +34,7 @@ export interface RatingDetails {
 export function computeRatingDetails(car: Car): RatingDetails | null {
   if (car.year == null && car.price == null) return null;
 
-  const yearF    = car.year    != null ? factor(car.year,    1990,    2025)        : 0.5;
+  const yearF    = car.year    != null ? factor(car.year,    1980,    2025)        : 0.5;
   const mileageF = car.mileage != null ? factor(car.mileage,    0, 500_000, true)  : MISSING_MILEAGE_FACTOR;
   const priceF   = car.price   != null ? factor(car.price,    500, 150_000, true)  : 0.5;
 
